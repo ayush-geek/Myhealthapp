@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Myhealthapp</string>
+    <string name="title">Welcome to Smart Calorie Tracker</string>
+    <string name="cal">Calories</string>
+    <string name="remain">Remaining = Goal - Food</string>
+    <string name="remaining">remaining</string>
+    <string name="defCal">1500</string>
+    <string name="dashB">DashBoard</string>
+    <string name="log">Log</string>
+    <string name="tar">Target</string>
+    <string name="food">Food</string>
+    <string name="goal">Goal</string>
+    <string name="logTitle">Log</string>
+    <string name="tarTitle">Target</string>
+    <string name="bFast">Breakfast</string>
+    <string name="lun">Lunch</string>
+    <string name="din">Dinner</string>
+    <string name="misc">Miscellaneous</string>
+    <string name="tarDes">Set a calorie target, this helps you keep track of your daily intake</string>
+    <string name="calTar">Your Daily Calorie Target</string>
+    <string name="defTar">1500 Calorie</string>
+    <string name="chgTar">Change Target</string>
+    <string name="addFood">Add Food</string>
+    <string name="logOut">Log Out</string>
+</resources>
