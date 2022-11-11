@@ -22,4 +22,23 @@
     <string name="chgTar">Change Target</string>
     <string name="addFood">Add Food</string>
     <string name="logOut">Log Out</string>
+    <string name="food_not_found">Food not found.</string>
+    <string name="search">Search</string>
+    <string name="listitem">List Item</string>
+    <string name="kcal">100 kcal</string>
+    <string name="usingCam">Scan your food</string>
+    <string name="manually">Enter manually</string>
+    <string name="label_carbs">Carbs</string>
+    <string name="label_proteins">Proteins</string>
+    <string name="label_fats">Fats</string>
+    <string name="label_total">Total</string>
+    <string name="label_kcal">kcal</string>
+    <string name="add_food">Add Food</string>
+    <string name="has_kcal">%2d Kcal per 100 g</string>
+    <string name="add_quantity">Enter serving in grams</string>
+    <string name="weight">%d g</string>
+    <string name="cals">%d Kcal</string>
+    <string name="percent">%d %%</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

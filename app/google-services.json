@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "487960218251",
-    "project_id": "health-app-5367c",
-    "storage_bucket": "health-app-5367c.appspot.com"
+    "project_number": "144845193568",
+    "project_id": "fir-authentication-demo-9ac42",
+    "storage_bucket": "fir-authentication-demo-9ac42.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:487960218251:android:9655b35883752ae2bf228e",
+        "mobilesdk_app_id": "1:144845193568:android:325e1cd3fd9e4796d5de05",
         "android_client_info": {
-          "package_name": "com.example.myhealthapp"
+          "package_name": "com.example.firebaseauthenticationdemo"
         }
       },
       "oauth_client": [
         {
-          "client_id": "487960218251-g16n8e0hlp5ugcqbi51vuuj8muqnh1tc.apps.googleusercontent.com",
+          "client_id": "144845193568-ln9643g0si9602gps82fn1lki3l04ld4.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDKUZh21eLR6rwQurFUO27gf0Skx0Px2yM"
+          "current_key": "AIzaSyB4n9qTVP6tQUp9WArI-vqWniVDpHcNKwE"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "487960218251-g16n8e0hlp5ugcqbi51vuuj8muqnh1tc.apps.googleusercontent.com",
+              "client_id": "144845193568-ln9643g0si9602gps82fn1lki3l04ld4.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

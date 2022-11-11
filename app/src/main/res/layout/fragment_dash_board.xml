@@ -63,31 +63,22 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
             <LinearLayout
                 android:layout_width="150sp"
                 android:layout_height="150sp"
-                android:layout_marginTop="20sp"
-                android:background="@drawable/circle"
                 android:orientation="vertical">
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/pie_chart"
+                    android:layout_width="150sp"
+                    android:layout_height="150sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:gravity="bottom"
-                    android:text="@string/defCal"
-                    android:textColor="@color/white"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:text="@string/remaining"
-                    android:textColor="#D0D0D0" />
+                    android:layout_marginTop="-60sp"
+                    android:textColor="#D0D0D0"
+                    android:text="@string/remaining"/>
             </LinearLayout>
 
             <LinearLayout
