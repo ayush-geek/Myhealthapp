@@ -29,7 +29,7 @@ public class LogFragment extends Fragment {
         bFast.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity) getActivity()).goToLog("breakfast");
+                ((MainActivity) getActivity()).goToCalender("breakfast");
             }
         });
 
@@ -37,7 +37,7 @@ public class LogFragment extends Fragment {
         lunch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity) getActivity()).goToLog("lunch");
+                ((MainActivity) getActivity()).goToCalender("lunch");
             }
         });
 
@@ -45,7 +45,7 @@ public class LogFragment extends Fragment {
         dinner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity) getActivity()).goToLog("dinner");
+                ((MainActivity) getActivity()).goToCalender("dinner");
             }
         });
 
@@ -53,7 +53,7 @@ public class LogFragment extends Fragment {
         miscellaneous.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity) getActivity()).goToLog("miscellaneous");
+                ((MainActivity) getActivity()).goToCalender("miscellaneous");
             }
         });
 

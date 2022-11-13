@@ -5,16 +5,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1C1E29"
+    android:background="#233148"
     tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="22dp"
-        android:padding="12dp"
+        android:padding="20sp"
         android:text="@string/logTitle"
+        android:gravity="center"
+        android:background="#1C1E29"
         android:textColor="#4F9AFF"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -43,7 +44,7 @@
             android:layout_weight="1"
             android:gravity="center">
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/bFast"
                 android:layout_width="0sp"
                 android:layout_height="match_parent"
@@ -51,17 +52,24 @@
                 android:layout_marginStart="20sp"
                 android:layout_marginEnd="10sp"
                 android:layout_weight="1"
+                android:backgroundTint="#151724"
+                app:cornerRadius="20sp"
+                android:textColor="@color/white"
                 android:text="@string/bFast" />
 
-            <Button
-                android:id="@+id/lunch"
+            <com.google.android.material.button.MaterialButton
+
+            android:id="@+id/lunch"
                 android:layout_width="0sp"
                 android:layout_height="match_parent"
                 android:layout_marginVertical="10sp"
                 android:layout_marginStart="10sp"
                 android:layout_marginEnd="20sp"
                 android:layout_weight="1"
-                android:text="@string/lun" />
+                android:text="@string/lun"
+                android:backgroundTint="#151724"
+                android:textColor="@color/white"
+                app:cornerRadius="20sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -70,7 +78,7 @@
             android:layout_weight="1"
             android:gravity="center">
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/dinner"
                 android:layout_width="0sp"
                 android:layout_height="match_parent"
@@ -78,9 +86,12 @@
                 android:layout_marginStart="20sp"
                 android:layout_marginEnd="10sp"
                 android:layout_weight="1"
+                android:backgroundTint="#151724"
+                app:cornerRadius="20sp"
+                android:textColor="@color/white"
                 android:text="@string/din" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/miscellaneous"
                 android:layout_width="0sp"
                 android:layout_height="match_parent"
@@ -88,6 +99,9 @@
                 android:layout_marginStart="10sp"
                 android:layout_marginEnd="20sp"
                 android:layout_weight="1"
+                android:backgroundTint="#151724"
+                app:cornerRadius="20sp"
+                android:textColor="@color/white"
                 android:text="@string/misc" />
         </LinearLayout>
 

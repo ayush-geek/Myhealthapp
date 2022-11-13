@@ -14,10 +14,12 @@ import com.example.myhealthapp.R;
 
 public class AddFoodOptionFragment extends Fragment {
     String type;
+    String date;
 
-    public AddFoodOptionFragment(String type) {
+    public AddFoodOptionFragment(String type, String date) {
         // Required empty public constructor
         this.type = type;
+        this.date = date;
     }
 
     @Override
@@ -34,7 +36,15 @@ public class AddFoodOptionFragment extends Fragment {
         man.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity) getActivity()).searchFood(type);
+                ((MainActivity) getActivity()).searchFood(type, date);
+            }
+        });
+
+        Button b = thisView.findViewById(R.id.usingCam);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((MainActivity) getActivity()).goToCam();
             }
         });
 

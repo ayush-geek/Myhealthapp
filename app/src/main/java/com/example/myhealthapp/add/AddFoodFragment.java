@@ -20,6 +20,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 
@@ -37,12 +38,14 @@ public class AddFoodFragment extends Fragment {
     Food selectedFood;
     FirebaseFirestore db;
     String type;
+    String date;
 
-    public AddFoodFragment(Food food, String type) {
+    public AddFoodFragment(Food food, String type, String date) {
         // Required empty public constructor
         selectedFood = food;
         db = FirebaseFirestore.getInstance();
         this.type = type;
+        this.date = date;
     }
 
     @Override
@@ -117,28 +120,24 @@ public class AddFoodFragment extends Fragment {
 
     public void addFoodToDataBase(int quantity) {
         String date = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
-        SimpleDateFormat s = new SimpleDateFormat("ddMMyyyyhhmmss");
-        String timestamp = s.format(new Date());
-
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         if (user != null) {
             String uid = user.getUid();
-            Map<String, Object> item = new HashMap<>();
-            FoodDataBase food = new FoodDataBase(selectedFood.getKnownAs(), selectedFood.getNutrients().getEnercKcal().intValue(), quantity);
-            item.put(timestamp, food);
+            FoodDataBase food = new FoodDataBase(selectedFood.getKnownAs(), (int)(selectedFood.getNutrients().getEnercKcal() * quantity / 100.0), quantity);
             db.collection("users")
-                    .document(uid).collection(date).document(String.valueOf(type))
-                    .set(item, SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    .document(uid).collection(date).document(String.valueOf(type)).collection(String.valueOf(type))
+                    //.set(item, SetOptions.merge())
+                    .add(food).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
-                        public void onSuccess(Void aVoid) {
+                        public void onSuccess(DocumentReference documentReference) {
                             Log.d("IMAD", "DocumentSnapshot successfully written!");
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Log.w("IMAD", "Error writing document", e);
+                            Log.d("IMAD","Failure");
                         }
                     });
         } else {

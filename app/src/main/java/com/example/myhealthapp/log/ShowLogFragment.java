@@ -2,8 +2,11 @@ package com.example.myhealthapp.log;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +15,29 @@ import android.widget.TextView;
 
 import com.example.myhealthapp.MainActivity;
 import com.example.myhealthapp.R;
+import com.example.myhealthapp.network.model.FoodDataBase;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ShowLogFragment extends Fragment {
     String type;
+    String date;
+    ArrayList<FoodDataBase> data;
+    FoodLogAdapter fla;
 
-    public ShowLogFragment(String type) {
+    public ShowLogFragment(String type, String l) {
         // Required empty public constructor
         this.type = type;
+        this.date = l;
+        data = new ArrayList<>();
     }
 
     @Override
@@ -53,10 +72,38 @@ public class ShowLogFragment extends Fragment {
         addFood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity) getActivity()).addOptions(type);
+                ((MainActivity) getActivity()).addOptions(type, date);
             }
         });
 
+        RecyclerView rcv = thisView.findViewById(R.id.rcv);
+        fla = new FoodLogAdapter(requireContext(), data);
+        fla.setFood(data);
+        rcv.setAdapter(fla);
+        getMyData();
+
         return thisView;
+    }
+
+    public void getMyData() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = user.getUid();
+
+        CollectionReference docRef = db.collection("users")
+                .document(uid).collection(date).document(type).collection(type);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    List<FoodDataBase> downloadInfoList = task.getResult().toObjects(FoodDataBase.class);
+                    data.addAll(downloadInfoList);
+                    fla.notifyDataSetChanged();
+                }
+                else {
+                    Log.d("TAG", "Error getting documents: ", task.getException());
+                }
+            }
+        });
     }
 }

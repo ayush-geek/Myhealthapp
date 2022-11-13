@@ -4,18 +4,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#233148"
     tools:context=".log.AddFoodOptionFragment">
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="22dp"
-        android:padding="12dp"
+        android:padding="20dp"
+        android:gravity="center"
         android:text="@string/addFood"
         android:textColor="#4F9AFF"
         android:textSize="24sp"
         android:textStyle="bold"
+        android:background="#1C1E29"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,17 +43,22 @@
             android:layout_weight="1"
             android:gravity="center">
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/usingCam"
                 android:layout_width="0sp"
                 android:layout_height="match_parent"
                 android:layout_marginVertical="10sp"
                 android:layout_marginStart="20sp"
                 android:layout_marginEnd="10sp"
+                android:drawableTop="@drawable/scan"
+                android:paddingVertical="20sp"
                 android:layout_weight="1"
+                android:textColor="@color/white"
+                android:backgroundTint="#151724"
+                app:cornerRadius="20sp"
                 android:text="@string/usingCam" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/manually"
                 android:layout_width="0sp"
                 android:layout_height="match_parent"
@@ -59,13 +66,17 @@
                 android:layout_marginStart="10sp"
                 android:layout_marginEnd="20sp"
                 android:layout_weight="1"
+                android:textColor="@color/white"
+                android:paddingVertical="20sp"
+                android:backgroundTint="#151724"
+                app:cornerRadius="20sp"
                 android:text="@string/manually" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="0sp"
-            android:layout_weight="2" />
+            android:layout_weight="1.5" />
 
     </LinearLayout>
 

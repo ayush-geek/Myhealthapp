@@ -4,13 +4,16 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.myhealthapp.add.AddFoodFragment;
+import com.example.myhealthapp.add.CameraFragment;
 import com.example.myhealthapp.log.AddFoodOptionFragment;
+import com.example.myhealthapp.log.CalenderFragment;
 import com.example.myhealthapp.log.LogFragment;
 import com.example.myhealthapp.log.ShowLogFragment;
 import com.example.myhealthapp.network.model.Food;
@@ -26,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     DashBoardFragment dsbF = new DashBoardFragment();
     LogFragment logF = new LogFragment();
     TargetFragment tarF = new TargetFragment();
+
+    Context context;
 
     FragmentManager fm;
 
@@ -45,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
                 .addToBackStack("dashB").commit();
 
         bnv = findViewById(R.id.bottomNavigationView);
+        context = getApplicationContext();
 
         bnv.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
@@ -98,6 +104,9 @@ public class MainActivity extends AppCompatActivity {
                 case "showLogF":
                 case "searchF":
                 case "logF":
+                case "addF":
+                case "addOptions":
+                case "calenderF":
                     bnv.getMenu().findItem(R.id.log).setChecked(true);
                     break;
                 case "tarF":
@@ -116,28 +125,40 @@ public class MainActivity extends AppCompatActivity {
         this.finish();
     }
 
-    public void addOptions(String type) {
+    public void addOptions(String type, String date) {
         fm.beginTransaction()
-                .replace(R.id.mainFrag, new AddFoodOptionFragment(type))
+                .replace(R.id.mainFrag, new AddFoodOptionFragment(type, date))
                 .addToBackStack("addOptions").commit();
     }
 
-    public void goToLog(String type) {
+    public void goToLog(String type, String l) {
         fm.beginTransaction()
-                .replace(R.id.mainFrag, new ShowLogFragment(type))
+                .replace(R.id.mainFrag, new ShowLogFragment(type, l))
                 .addToBackStack("showLogF").commit();
     }
 
-    public void searchFood(String type) {
+    public void searchFood(String type, String date) {
         fm.beginTransaction()
-                .replace(R.id.mainFrag, new SearchFragment(type))
+                .replace(R.id.mainFrag, new SearchFragment(type, date))
                 .addToBackStack("searchF").commit();
 
     }
 
-    public void addFood(Food f, String type) {
+    public void addFood(Food f, String type,String date) {
         fm.beginTransaction()
-                .replace(R.id.mainFrag, new AddFoodFragment(f, type))
+                .replace(R.id.mainFrag, new AddFoodFragment(f, type, date))
                 .addToBackStack("addF").commit();
+    }
+
+    public void goToCalender(String type) {
+        fm.beginTransaction()
+                .replace(R.id.mainFrag, new CalenderFragment(type))
+                .addToBackStack("calenderF").commit();
+    }
+
+    public void goToCam() {
+        fm.beginTransaction()
+                .replace(R.id.mainFrag, new CameraFragment(context))
+                .addToBackStack("camF").commit();
     }
 }

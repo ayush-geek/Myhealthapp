@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#233148"
     tools:context=".log.ShowLogFragment">
 
     <TextView
@@ -36,11 +37,14 @@
         app:layout_constraintTop_toBottomOf="@+id/logTypeHeading" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcv"
         android:layout_marginTop="20sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addFood" />
+        app:layout_constraintTop_toBottomOf="@+id/addFood"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

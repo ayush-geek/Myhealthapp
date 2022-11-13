@@ -22,9 +22,11 @@ import java.util.ArrayList;
 public class SearchFragment extends Fragment {
     SearchViewModel gd;
     String type;
+    String date;
 
-    public SearchFragment(String tp) {
+    public SearchFragment(String tp, String Date) {
         type = tp;
+        date = Date;
     }
 
     @Override
@@ -38,7 +40,7 @@ public class SearchFragment extends Fragment {
         this.gd = new ViewModelProvider(requireActivity()).get(SearchViewModel.class);
         View my = inflater.inflate(R.layout.fragment_search, container, false);
         ArrayList<Food> al = new ArrayList<>();
-        SearchAdapter adapter = new SearchAdapter(requireActivity(), al, type);
+        SearchAdapter adapter = new SearchAdapter(requireActivity(), al, type, date);
 
         RecyclerView rcv = my.findViewById(R.id.search_recyclerview);
         ProgressBar pb = my.findViewById(R.id.search_progressbar);

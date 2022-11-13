@@ -5,6 +5,8 @@ public class FoodDataBase {
     private  int dish_calorie;
     private int  dish_quantity;
 
+    public FoodDataBase() { }
+
     public FoodDataBase(String dish_name, int dish_calorie , int dish_quantity) {
         this.dish_name=dish_name;
         this.dish_calorie=dish_calorie;

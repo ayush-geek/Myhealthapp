@@ -36,13 +36,6 @@ public class DashBoardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View myV = inflater.inflate(R.layout.fragment_dash_board, container, false);
-        Button b = myV.findViewById(R.id.logOut);
-        b.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                handleLogout();
-            }
-        });
 
         pieChart = myV.findViewById(R.id.pie_chart);
         drawPC();
@@ -64,7 +57,7 @@ public class DashBoardFragment extends Fragment {
         PieDataSet pds = new PieDataSet(pieEntries, "");
 
         ArrayList<Integer> cols = new ArrayList<>();
-        cols.add(Color.parseColor("#FFFF00"));
+        cols.add(Color.parseColor("#FFAB00"));
         cols.add(Color.parseColor("#151724"));
 
         pds.setColors(cols);
@@ -83,19 +76,6 @@ public class DashBoardFragment extends Fragment {
         pds.setDrawValues(false);
         pieChart.invalidate();
 
-//        pieChart.animateXY(1000, 1000);
-    }
-
-    public void handleLogout() {
-        AuthUI.getInstance().signOut(requireContext()).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    Intent i = new Intent(requireContext(), LoginActivity.class);
-                    startActivity(i);
-                    requireActivity().finish();
-                }
-            }
-        });
+        pieChart.animateXY(1000, 1000);
     }
 }

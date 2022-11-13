@@ -2,7 +2,6 @@ package com.example.myhealthapp.search;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,11 +23,13 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
     DecimalFormat df = new DecimalFormat("#.##");
     Activity curActivity;
     String type;
+    String date;
 
-    public SearchAdapter(Context context, List<Food> foodList, String type) {
+    public SearchAdapter(Context context, List<Food> foodList, String type, String date) {
         this.foodList = foodList;
         this.context = context;
         this.type = type;
+        this.date = date;
     }
 
     @NonNull
@@ -47,6 +48,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         holder.curAc = (MainActivity) curActivity;
         holder.f = foodList.get(position);
         holder.type = type;
+        holder.date = date;
     }
 
     public void setOnClickListener(Activity ac) {
@@ -64,6 +66,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         View.OnClickListener onClickListener;
         MainActivity curAc;
         String type;
+        String date;
 
         public SearchViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -71,9 +74,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
             itemName = (TextView)itemView.findViewById(R.id.search_item_name);
             itemKcal = (TextView)itemView.findViewById(R.id.search_item_kcal);
             itemView.setOnClickListener(new View.OnClickListener() {
+
                 @Override
                 public void onClick(View view) {
-                    curAc.addFood(f, type);
+                    curAc.addFood(f, type, date);
                 }
             });
         }
