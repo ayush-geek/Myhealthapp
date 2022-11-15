@@ -12,17 +12,21 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.myhealthapp.network.model.DailyLimit;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class TargetFragment extends Fragment {
 
     public TargetFragment() {
+
 
 
     }
@@ -31,6 +35,43 @@ public class TargetFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_target, container, false);
+
+        EditText ed1=(EditText)  v.findViewById(R.id.setTarget);
+
+
+
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        DocumentReference docRef = db.collection("dailyLimit").document(user.getUid());
+
+        docRef.get().addOnCompleteListener((new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                Log.d("IMAD", "DocumentSnapshot data: " + document.getData());
+
+                                DailyLimit dl = document.toObject(DailyLimit.class);
+                                ed1.setText(String.valueOf(dl.getDaily_limit()));
+                            }
+                        } else {
+                            Log.d("IMAD", "No such document");
+                        }
+
+                    }
+                }));
+
+
+
+
+
+
+
+
+
 
         Button b = v.findViewById(R.id.logOut);
         b.setOnClickListener(new View.OnClickListener() {
@@ -43,7 +84,7 @@ public class TargetFragment extends Fragment {
         bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditText ed1=(EditText)  v.findViewById(R.id.setTarget);
+
               //  ed1.setText(ed1.getText());
                 int val=Integer.parseInt(ed1.getText().toString());
                 updateTarget(val);

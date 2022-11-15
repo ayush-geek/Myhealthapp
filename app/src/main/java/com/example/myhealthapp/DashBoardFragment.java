@@ -28,8 +28,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class DashBoardFragment extends Fragment {
     private PieChart pieChart;
@@ -73,7 +71,7 @@ public class DashBoardFragment extends Fragment {
                     } else {
                         Log.d("IMAD", "No such document");
 
-                        Map<String, Object> city = new HashMap<>();
+                      //  Map<String, Object> city = new HashMap<>();
                         DailyLimit dlimit = new DailyLimit(2300, 0);
 
                         docRef.set(dlimit).addOnCompleteListener(new OnCompleteListener<Void>() {
