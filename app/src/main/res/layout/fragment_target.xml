@@ -67,11 +67,12 @@
                 android:contentDescription="@string/goal"
                 android:src="@drawable/fork" />
 
-            <TextView
+            <EditText
+                android:id="@+id/setTarget"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10sp"
-                android:text="@string/defTar"
+                android:text="1500"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="28sp" />
@@ -84,6 +85,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="25sp"
             android:backgroundTint="#FFAB00"
+            android:onClick="updateTarget"
             android:text="@string/chgTar"
             android:textColor="@color/black"
             app:cornerRadius="20sp" />

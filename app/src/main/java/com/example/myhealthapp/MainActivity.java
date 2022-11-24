@@ -1,14 +1,14 @@
 package com.example.myhealthapp;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.myhealthapp.add.AddFoodFragment;
 import com.example.myhealthapp.add.CameraFragment;
@@ -34,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
 
     FragmentManager fm;
 
+    TextView tv_food ,tv_goal,tv_remaining;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +45,19 @@ public class MainActivity extends AppCompatActivity {
 
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             startLogin();
+
+
+
         }
+
+
+
+
+
+
+
+
+
 
         fm = getSupportFragmentManager();
         fm.beginTransaction().replace(R.id.mainFrag, dsbF)
@@ -161,4 +175,10 @@ public class MainActivity extends AppCompatActivity {
                 .replace(R.id.mainFrag, new CameraFragment(context))
                 .addToBackStack("camF").commit();
     }
+
+
+
+
+
+
 }

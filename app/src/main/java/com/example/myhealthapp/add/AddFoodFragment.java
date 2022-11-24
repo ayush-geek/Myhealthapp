@@ -1,10 +1,6 @@
 package com.example.myhealthapp.add;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,23 +11,24 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+
+import com.example.myhealthapp.R;
+import com.example.myhealthapp.network.model.Food;
 import com.example.myhealthapp.network.model.FoodDataBase;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.SetOptions;
-
-import com.example.myhealthapp.R;
-import com.example.myhealthapp.network.model.Food;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 import java.util.regex.Pattern;
 
 public class AddFoodFragment extends Fragment {
@@ -131,6 +128,7 @@ public class AddFoodFragment extends Fragment {
                     .add(food).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
+                            updateConsumption((int)(selectedFood.getNutrients().getEnercKcal() * quantity / 100.0));
                             Log.d("IMAD", "DocumentSnapshot successfully written!");
                         }
                     })
@@ -143,5 +141,36 @@ public class AddFoodFragment extends Fragment {
         } else {
             Toast.makeText(requireContext(), "Error", Toast.LENGTH_LONG).show();
         }
+    }
+
+
+
+    public void updateConsumption(int val)
+    {
+//
+//        EditText ed1=(EditText)  v.findViewById(R.id.setTarget);
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        db.collection("dailyLimit").document(user.getUid())
+                .update("consumption", val)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Log.d("IMAD","Firebase Updated");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("IMAD",e.toString());
+                    }
+                });
+
+
+
+
+
     }
 }
