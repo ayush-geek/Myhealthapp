@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.myhealthapp.R;
 import com.example.myhealthapp.network.model.Food;
@@ -130,6 +131,8 @@ public class AddFoodFragment extends Fragment {
                         public void onSuccess(DocumentReference documentReference) {
                             updateConsumption((int)(selectedFood.getNutrients().getEnercKcal() * quantity / 100.0));
                             Log.d("IMAD", "DocumentSnapshot successfully written!");
+                            Toast.makeText(requireContext(), "Food Added successfully", Toast.LENGTH_LONG).show();
+                            getActivity().getSupportFragmentManager().popBackStack("calenderF", FragmentManager.POP_BACK_STACK_INCLUSIVE);
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {

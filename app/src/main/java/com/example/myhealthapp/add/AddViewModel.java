@@ -11,9 +11,10 @@ import com.example.myhealthapp.Constants;
 import com.example.myhealthapp.network.FoodDatabaseInterface;
 import com.example.myhealthapp.network.model.Data;
 import com.example.myhealthapp.network.model.Food;
-import com.example.myhealthapp.network.model.Hint;
+//import com.example.myhealthapp.network.model.Hint;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -51,17 +52,17 @@ public class AddViewModel extends ViewModel {
             public void onResponse(@NonNull Call<Data> call, @NonNull Response<Data> response) {
                 ArrayList<Food> data = new ArrayList<>();
                 if (!response.isSuccessful()) {
-                    Log.d("IMAD", response.message());
+                    Log.d("IMAD", "Response error: " + response.message());
                     foodScanned.setValue(null);
                 } else {
                     assert response.body().getParsed().size() != 0;
-                    foodScanned.setValue(response.body().getParsed().get(0));
+                    foodScanned.setValue(response.body().getParsed().get(0).getFood());
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<Data> call, @NonNull Throwable t) {
-                Log.d("IMAD", t.getMessage());
+                Log.d("IMAD", "Error connecting " + t.getMessage());
             }
         });
     }
