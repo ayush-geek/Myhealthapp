@@ -33,9 +33,6 @@ public class DashBoardFragment extends Fragment {
     private PieChart pieChart;
     TextView tv_food ,tv_goal,tv_remaining;
     public DashBoardFragment() {
-
-
-
     }
 
     @Override
@@ -99,24 +96,17 @@ public class DashBoardFragment extends Fragment {
                     }
                 } else {
                     Log.d("IMAD", "get failed with ", task.getException());
-
-                    //Craete a doc
-
-
-
                 }
             }
         }));
         return myV;
     }
 
-
-
     private void drawPC() {
         ArrayList<PieEntry> pieEntries = new ArrayList<>();
 
-        pieEntries.add(new PieEntry(1000, ""));
-        pieEntries.add(new PieEntry(500, ""));
+        pieEntries.add(new PieEntry(2300-891, ""));
+        pieEntries.add(new PieEntry(891, ""));
 
         Description desc = new Description();
         desc.setText("");
@@ -135,7 +125,7 @@ public class DashBoardFragment extends Fragment {
         pieChart.setData(pieData);
         pieChart.getLegend().setEnabled(false);
         pieChart.setHoleRadius(90);
-        pieChart.setCenterText(String.format("%d", 1500));
+        pieChart.setCenterText(String.format("%d", 2300));
         pieChart.setCenterTextColor(getResources().getColor(R.color.white));
         pieChart.setCenterTextTypeface(Typeface.DEFAULT_BOLD);
         pieChart.setCenterTextSize(32);

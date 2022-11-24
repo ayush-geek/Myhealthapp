@@ -49,4 +49,8 @@ public class Food {
         this.nutrients = nutrients;
     }
 
+    public String toString() {
+        return this.label;
+    }
+
 }

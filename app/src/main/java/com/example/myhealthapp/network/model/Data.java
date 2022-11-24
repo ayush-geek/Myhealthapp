@@ -11,7 +11,7 @@ public class Data {
     private String text;
     @SerializedName("parsed")
     @Expose
-    private List<Food> parsed = null;
+    private List<Parsed> parsed = null;
     @SerializedName("hints")
     @Expose
     private List<Hint> hints = null;
@@ -43,11 +43,11 @@ public class Data {
         this.links = links;
     }
 
-    public List<Food> getParsed() {
+    public List<Parsed> getParsed() {
         return parsed;
     }
 
-    public void setParsed(List<Food> parsed) {
+    public void setParsed(List<Parsed> parsed) {
         this.parsed = parsed;
     }
 }

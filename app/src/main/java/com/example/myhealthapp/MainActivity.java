@@ -45,19 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             startLogin();
-
-
-
         }
-
-
-
-
-
-
-
-
-
 
         fm = getSupportFragmentManager();
         fm.beginTransaction().replace(R.id.mainFrag, dsbF)
