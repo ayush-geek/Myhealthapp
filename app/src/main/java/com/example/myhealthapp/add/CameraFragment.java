@@ -76,13 +76,14 @@ public class CameraFragment extends Fragment {
         fm = v.findViewById(R.id.takePic);
 
 //        adm = new ViewModelProvider(requireActivity()).get(AddViewModel.class);
-
+//
         picture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Launch camera if we have permission
 //                if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
                     Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    Log.d("IMAD", "HERE1");
                     startActivityForResult(cameraIntent, 1);
 //                } else {
 //                    //Request camera permission if we don't have it.
@@ -156,6 +157,7 @@ public class CameraFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        Log.d("IMAD", "HERE2");
         if (requestCode == 1 && resultCode == RESULT_OK) {
             try {
                 Bitmap image = MediaStore.Images.Media.getBitmap(cntxt.getContentResolver(), data.getData());
