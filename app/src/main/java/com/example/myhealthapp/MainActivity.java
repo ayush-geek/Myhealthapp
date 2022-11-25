@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.myhealthapp.add.AddFoodFragment;
 import com.example.myhealthapp.add.CameraFragment;
+import com.example.myhealthapp.add.VoiceFragment;
 import com.example.myhealthapp.log.AddFoodOptionFragment;
 import com.example.myhealthapp.log.CalenderFragment;
 import com.example.myhealthapp.log.LogFragment;
@@ -21,7 +22,6 @@ import com.example.myhealthapp.search.SearchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
-
 
 public class MainActivity extends AppCompatActivity {
     BottomNavigationView bnv;
@@ -164,9 +164,9 @@ public class MainActivity extends AppCompatActivity {
                 .addToBackStack("camF").commit();
     }
 
-
-
-
-
-
+    public void goToVoice() {
+        fm.beginTransaction()
+                .replace(R.id.mainFrag, new VoiceFragment())
+                .addToBackStack("voiceF").commit();
+    }
 }

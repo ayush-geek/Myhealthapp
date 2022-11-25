@@ -74,9 +74,31 @@
         </LinearLayout>
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0sp"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/usingVoice"
+                android:layout_width="0sp"
+                android:layout_height="match_parent"
+                android:layout_marginVertical="10sp"
+                android:layout_marginStart="20sp"
+                android:layout_marginEnd="10sp"
+                android:drawableTop="@drawable/scan"
+                android:paddingVertical="20sp"
+                android:layout_weight="0.5"
+                android:textColor="@color/white"
+                android:backgroundTint="#151724"
+                app:cornerRadius="20sp"
+                android:text="@string/usingCam" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="0sp"
-            android:layout_weight="1.5" />
+            android:layout_weight="1" />
 
     </LinearLayout>
 

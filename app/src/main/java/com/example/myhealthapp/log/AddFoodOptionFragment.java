@@ -48,6 +48,14 @@ public class AddFoodOptionFragment extends Fragment {
             }
         });
 
+        Button b1 = thisView.findViewById(R.id.usingVoice);
+        b1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((MainActivity) getActivity()).goToVoice();
+            }
+        });
+
         return thisView;
     }
 }
