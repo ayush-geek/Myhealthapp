@@ -1,17 +1,16 @@
 package com.example.myhealthapp.log;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myhealthapp.MainActivity;
 import com.example.myhealthapp.R;
@@ -77,6 +76,7 @@ public class ShowLogFragment extends Fragment {
         });
 
         RecyclerView rcv = thisView.findViewById(R.id.rcv);
+        data=new ArrayList<>();
         fla = new FoodLogAdapter(requireContext(), data);
         fla.setFood(data);
         rcv.setAdapter(fla);
@@ -89,7 +89,7 @@ public class ShowLogFragment extends Fragment {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user.getUid();
-
+        //ArrayList<FoodDataBase> data1=new ArrayList<>();;
         CollectionReference docRef = db.collection("users")
                 .document(uid).collection(date).document(type).collection(type);
         docRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
