@@ -32,14 +32,7 @@ public class VoiceFragment extends Fragment {
     Boolean k;
 
     public VoiceFragment() {
-        try {
-            ac = AudioClassifier.createFromFile(requireContext(), "soundclassifier_with_metadata.tflite");
-            ar = ac.createAudioRecord();
-            tensor = ac.createInputTensorAudio();
-            k = false;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        k = false;
     }
 
     @Override
@@ -57,7 +50,7 @@ public class VoiceFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (k) {
-                    startRecording();
+                    stopRecording();
                     k = false;
                 } else {
                     startRecording();
@@ -70,7 +63,16 @@ public class VoiceFragment extends Fragment {
     }
 
     public void startRecording() {
-        ar.startRecording();
+        try {
+            ac = AudioClassifier.createFromFile(requireContext(), "soundclassifier_with_metadata.tflite");
+            ar = ac.createAudioRecord();
+            tensor = ac.createInputTensorAudio();
+            ar.startRecording();
+            k = true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            k = false;
+        }
     }
 
     public void stopRecording() {
