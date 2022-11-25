@@ -1,13 +1,10 @@
 package com.example.myhealthapp.add;
 
-import static android.app.Activity.RESULT_OK;
-
-import android.content.Intent;
+import android.media.AudioRecord;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,14 +12,34 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.myhealthapp.R;
+import com.example.myhealthapp.ml.SoundclassifierWithMetadata;
 
-import java.util.ArrayList;
+import org.tensorflow.lite.DataType;
+import org.tensorflow.lite.support.audio.TensorAudio;
+import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
+import org.tensorflow.lite.task.audio.classifier.AudioClassifier;
+import org.tensorflow.lite.task.audio.classifier.Classifications;
+
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.util.List;
 
 public class VoiceFragment extends Fragment {
     static int REQUEST_VOICE = 1337;
+    AudioClassifier ac;
+    AudioRecord ar;
+    TensorAudio tensor;
+    Boolean k;
 
     public VoiceFragment() {
-        // Required empty public constructor
+        try {
+            ac = AudioClassifier.createFromFile(requireContext(), "soundclassifier_with_metadata.tflite");
+            ar = ac.createAudioRecord();
+            tensor = ac.createInputTensorAudio();
+            k = false;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -39,29 +56,30 @@ public class VoiceFragment extends Fragment {
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startVoiceRecognitionActivity();
+                if (k) {
+                    startRecording();
+                    k = false;
+                } else {
+                    startRecording();
+                    k = true;
+                }
             }
         });
 
         return myView;
     }
 
-    public void startVoiceRecognitionActivity() {
-        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
-                "Speech recognition demo");
-        startActivityForResult(intent, REQUEST_VOICE);
+    public void startRecording() {
+        ar.startRecording();
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_VOICE && resultCode == RESULT_OK) {
-            ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-            for (String k: matches) {
-                Log.d("IMAD", k);
-            }
+    public void stopRecording() {
+        ar.stop();
+        tensor.load(ar);
+        List<Classifications> output = ac.classify(tensor);
+
+        for (Classifications it: output) {
+            Log.d("IMAD", it.getCategories().get(0).getLabel());
         }
     }
 }
