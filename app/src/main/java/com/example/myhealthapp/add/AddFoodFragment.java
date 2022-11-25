@@ -168,11 +168,7 @@ public class AddFoodFragment extends Fragment {
 
 
 
-    public void updateConsumption(int val)
-    {
-//
-//        EditText ed1=(EditText)  v.findViewById(R.id.setTarget);
-
+    public void updateConsumption(int val) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -194,10 +190,5 @@ public class AddFoodFragment extends Fragment {
                         Log.d("IMAD",e.toString());
                     }
                 });
-
-
-
-
-
     }
 }
