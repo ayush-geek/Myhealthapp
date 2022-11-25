@@ -41,12 +41,10 @@ public class DashBoardFragment extends Fragment {
         View myV = inflater.inflate(R.layout.fragment_dash_board, container, false);
 
         pieChart = myV.findViewById(R.id.pie_chart);
-        drawPC();
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         DocumentReference docRef = db.collection("dailyLimit").document(user.getUid());
-
         docRef.get().addOnCompleteListener((new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -86,6 +84,8 @@ public class DashBoardFragment extends Fragment {
                                 //tv_remaining.setText(String.valueOf(dl.getDaily_limit()-dl.getConsumption()));
                             }
 
+
+
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
@@ -97,23 +97,34 @@ public class DashBoardFragment extends Fragment {
                 } else {
                     Log.d("IMAD", "get failed with ", task.getException());
                 }
+
+                 drawPC();
+
             }
         }));
+
         return myV;
     }
 
     private void drawPC() {
         ArrayList<PieEntry> pieEntries = new ArrayList<>();
 
-        pieEntries.add(new PieEntry(2300-891, ""));
-        pieEntries.add(new PieEntry(891, ""));
+        int food_cons=Integer.parseInt(tv_food.getText().toString());
+        int dlimit=Integer.parseInt(tv_goal.getText().toString());
+        int rem=dlimit-food_cons;
+
+        if(rem<0)
+            rem=0;
+
+        pieEntries.add(new PieEntry(rem, ""));
+        pieEntries.add(new PieEntry(food_cons, ""));
 
         Description desc = new Description();
         desc.setText("");
 
         pieChart.setDescription(desc);
 
-        PieDataSet pds = new PieDataSet(pieEntries, "");
+        PieDataSet pds = new PieDataSet(pieEntries, String.valueOf(dlimit));
 
         ArrayList<Integer> cols = new ArrayList<>();
         cols.add(Color.parseColor("#FFAB00"));
@@ -125,7 +136,7 @@ public class DashBoardFragment extends Fragment {
         pieChart.setData(pieData);
         pieChart.getLegend().setEnabled(false);
         pieChart.setHoleRadius(90);
-        pieChart.setCenterText(String.format("%d", 2300));
+        pieChart.setCenterText(String.valueOf(rem));
         pieChart.setCenterTextColor(getResources().getColor(R.color.white));
         pieChart.setCenterTextTypeface(Typeface.DEFAULT_BOLD);
         pieChart.setCenterTextSize(32);
