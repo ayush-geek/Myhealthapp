@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.myhealthapp.R;
+import com.example.myhealthapp.network.model.DailyLimit;
 import com.example.myhealthapp.network.model.Food;
 import com.example.myhealthapp.network.model.FoodDataBase;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,6 +26,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
@@ -37,6 +39,7 @@ public class AddFoodFragment extends Fragment {
     FirebaseFirestore db;
     String type;
     String date;
+    int curCons;
 
     public AddFoodFragment(Food food, String type, String date) {
         // Required empty public constructor
@@ -120,9 +123,26 @@ public class AddFoodFragment extends Fragment {
         String date = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
+
+
         if (user != null) {
             String uid = user.getUid();
             FoodDataBase food = new FoodDataBase(selectedFood.getKnownAs(), (int)(selectedFood.getNutrients().getEnercKcal() * quantity / 100.0), quantity);
+
+
+            DocumentReference docRef = db.collection("dailyLimit").document(user.getUid());
+            docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    DailyLimit dl = documentSnapshot.toObject(DailyLimit.class);
+                    curCons=dl.getConsumption();
+                    Log.d("idd" ,documentSnapshot.getData().toString());
+
+
+                }
+            });
+
+
             db.collection("users")
                     .document(uid).collection(date).document(String.valueOf(type)).collection(String.valueOf(type))
                     //.set(item, SetOptions.merge())
@@ -156,8 +176,12 @@ public class AddFoodFragment extends Fragment {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
+
+
+        Log.d("isd",String.valueOf(curCons) +" "+ String.valueOf(val));
+
         db.collection("dailyLimit").document(user.getUid())
-                .update("consumption", val)
+                .update("consumption", val+curCons)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
