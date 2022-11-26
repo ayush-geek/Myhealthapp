@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void goToVoice(String type, String date) {
         fm.beginTransaction()
-                .replace(R.id.mainFrag, new VoiceFragment(type, date))
+                .replace(R.id.mainFrag, new VoiceFragment(context, type, date))
                 .addToBackStack("voiceF").commit();
     }
 }

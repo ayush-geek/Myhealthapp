@@ -34,7 +34,8 @@ import java.util.Locale;
 
 public class DashBoardFragment extends Fragment {
     private PieChart pieChart;
-    TextView tv_food ,tv_goal,tv_remaining;
+    TextView tv_food, tv_goal, tv_remaining;
+
     public DashBoardFragment() {
     }
 
@@ -58,11 +59,11 @@ public class DashBoardFragment extends Fragment {
                     if (document.exists()) {
                         Log.d("IMAD", "DocumentSnapshot data: " + document.getData());
 //                            City city = documentSnapshot.toObject(City.class);
-                        DailyLimit dl=document.toObject(DailyLimit.class);
-                        tv_goal=(TextView)  myV.findViewById(R.id.goal);
+                        DailyLimit dl = document.toObject(DailyLimit.class);
+                        tv_goal = (TextView) myV.findViewById(R.id.goal);
                         tv_goal.setText(String.valueOf(dl.getDaily_limit()));
 
-                        tv_food=(TextView)  myV.findViewById(R.id.food);
+                        tv_food = (TextView) myV.findViewById(R.id.food);
                         tv_food.setText(String.valueOf(dl.getConsumption()));
 
                         // tv_remaining=(TextView) findViewById(R.id.remaining);
@@ -70,7 +71,7 @@ public class DashBoardFragment extends Fragment {
                     } else {
                         Log.d("IMAD", "No such document");
 
-                      //  Map<String, Object> city = new HashMap<>();
+                        //  Map<String, Object> city = new HashMap<>();
                         DailyLimit dlimit = new DailyLimit(2300, 0);
 
                         docRef.set(dlimit).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -78,32 +79,23 @@ public class DashBoardFragment extends Fragment {
                             public void onComplete(@NonNull Task<Void> task) {
                                 Log.d("IMAD", "DocumentSnapshot written with ID: " + docRef.getId());
 
-                                tv_goal=(TextView)  myV.findViewById(R.id.goal);
+                                tv_goal = (TextView) myV.findViewById(R.id.goal);
                                 tv_goal.setText(String.valueOf(2300));
 
-                                tv_food=(TextView)  myV.findViewById(R.id.food);
+                                tv_food = (TextView) myV.findViewById(R.id.food);
                                 tv_food.setText(String.valueOf(0));
-
-                                // tv_remaining=(TextView) findViewById(R.id.remaining);
-                                //tv_remaining.setText(String.valueOf(dl.getDaily_limit()-dl.getConsumption()));
                             }
-
-
-
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 Log.e("IMAD", "Error adding document", e);
                             }
                         });
-
                     }
                 } else {
                     Log.d("IMAD", "get failed with ", task.getException());
                 }
-
-                 drawPC();
-
+                drawPC();
             }
         }));
 
@@ -113,12 +105,12 @@ public class DashBoardFragment extends Fragment {
     private void drawPC() {
         ArrayList<PieEntry> pieEntries = new ArrayList<>();
 
-        int food_cons=Integer.parseInt(tv_food.getText().toString());
-        int dlimit=Integer.parseInt(tv_goal.getText().toString());
-        int rem=dlimit-food_cons;
+        int food_cons = Integer.parseInt(tv_food.getText().toString());
+        int dlimit = Integer.parseInt(tv_goal.getText().toString());
+        int rem = dlimit - food_cons;
 
-        if(rem<0)
-            rem=0;
+        if (rem < 0)
+            rem = 0;
 
         pieEntries.add(new PieEntry(rem, ""));
         pieEntries.add(new PieEntry(food_cons, ""));
