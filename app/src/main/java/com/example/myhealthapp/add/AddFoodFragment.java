@@ -127,7 +127,7 @@ public class AddFoodFragment extends Fragment {
             String uid = user.getUid();
             FoodDataBase food = new FoodDataBase(selectedFood.getKnownAs(), (int)(selectedFood.getNutrients().getEnercKcal() * quantity / 100.0), quantity);
 
-            DocumentReference docRef = db.collection("dailyLimit").document(user.getUid());
+            DocumentReference docRef = db.collection("foodLimit").document(user.getUid()).collection(date).document("daily");
             docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -172,7 +172,7 @@ public class AddFoodFragment extends Fragment {
 
         Log.d("isd",String.valueOf(curCons) +" "+ String.valueOf(val));
 
-        db.collection("dailyLimit").document(user.getUid())
+        db.collection("foodLimit").document(user.getUid()).collection(date).document("daily")
                 .update("consumption", val+curCons)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
