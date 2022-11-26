@@ -158,15 +158,15 @@ public class MainActivity extends AppCompatActivity {
                 .addToBackStack("calenderF").commit();
     }
 
-    public void goToCam() {
+    public void goToCam(String type, String date) {
         fm.beginTransaction()
-                .replace(R.id.mainFrag, new CameraFragment(context))
+                .replace(R.id.mainFrag, new CameraFragment(context, type, date))
                 .addToBackStack("camF").commit();
     }
 
-    public void goToVoice() {
+    public void goToVoice(String type, String date) {
         fm.beginTransaction()
-                .replace(R.id.mainFrag, new VoiceFragment())
+                .replace(R.id.mainFrag, new VoiceFragment(type, date))
                 .addToBackStack("voiceF").commit();
     }
 }

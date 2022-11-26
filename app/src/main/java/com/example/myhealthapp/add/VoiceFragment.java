@@ -4,34 +4,38 @@ import android.media.AudioRecord;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.myhealthapp.R;
-import com.example.myhealthapp.ml.SoundclassifierWithMetadata;
+import com.example.myhealthapp.network.model.Food;
+import com.google.android.material.button.MaterialButton;
 
-import org.tensorflow.lite.DataType;
 import org.tensorflow.lite.support.audio.TensorAudio;
-import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
 import org.tensorflow.lite.task.audio.classifier.AudioClassifier;
 import org.tensorflow.lite.task.audio.classifier.Classifications;
 
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.util.List;
 
 public class VoiceFragment extends Fragment {
-    static int REQUEST_VOICE = 1337;
     AudioClassifier ac;
     AudioRecord ar;
     TensorAudio tensor;
     Boolean k;
+    TextView detected;
+    MaterialButton correct, wrong;
+    String data, type, date;
 
-    public VoiceFragment() {
+    public VoiceFragment(String type, String date) {
+        this.type = type;
+        this.date = date;
         k = false;
     }
 
@@ -45,17 +49,65 @@ public class VoiceFragment extends Fragment {
                              Bundle savedInstanceState) {
         View myView = inflater.inflate(R.layout.fragment_voice, container, false);
 
-        Button b = myView.findViewById(R.id.record_voice);
+        detected = myView.findViewById(R.id.audio);
+        correct = myView.findViewById(R.id.correct);
+        wrong = myView.findViewById(R.id.wrong);
+
+        AddViewModel adm = new ViewModelProvider(requireActivity()).get(AddViewModel.class);
+
+
+        wrong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("IMAD", "PRESSED");
+            }
+        });
+
+        try {
+            ac = AudioClassifier.createFromFile(requireContext(), "soundclassifier_with_metadata.tflite");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ar = ac.createAudioRecord();
+        tensor = ac.createInputTensorAudio();
+
+        MaterialButton b = myView.findViewById(R.id.record_voice);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (k) {
                     stopRecording();
                     k = false;
+                    b.setIcon(getResources().getDrawable(R.drawable.mic));
                 } else {
                     startRecording();
                     k = true;
+                    b.setIcon(getResources().getDrawable(R.drawable.stop));
                 }
+            }
+        });
+
+        wrong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                data = null;
+                detected.setVisibility(TextView.INVISIBLE);
+                correct.setVisibility(MaterialButton.INVISIBLE);
+                wrong.setVisibility(MaterialButton.INVISIBLE);
+            }
+        });
+
+        correct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adm.getSearched(data).observe(getViewLifecycleOwner(), data -> {
+                    if (data == null) {
+                        Toast.makeText(requireContext(), "Cannot find the food item in our Database", Toast.LENGTH_LONG).show();
+                    } else {
+                        b.setVisibility(MaterialButton.INVISIBLE);
+                        goToAdd(data, type, date);
+                    }
+                });
             }
         });
 
@@ -63,16 +115,7 @@ public class VoiceFragment extends Fragment {
     }
 
     public void startRecording() {
-        try {
-            ac = AudioClassifier.createFromFile(requireContext(), "soundclassifier_with_metadata.tflite");
-            ar = ac.createAudioRecord();
-            tensor = ac.createInputTensorAudio();
-            ar.startRecording();
-            k = true;
-        } catch (IOException e) {
-            e.printStackTrace();
-            k = false;
-        }
+        ar.startRecording();
     }
 
     public void stopRecording() {
@@ -80,8 +123,21 @@ public class VoiceFragment extends Fragment {
         tensor.load(ar);
         List<Classifications> output = ac.classify(tensor);
 
-        for (Classifications it: output) {
-            Log.d("IMAD", it.getCategories().get(0).getLabel());
+        if (output.get(0).getCategories().get(0).getIndex() == 1) {
+            Toast.makeText(requireContext(), "Sorry, unable to recognize what you're saying please speak loudly.", Toast.LENGTH_LONG).show();
+        } else {
+            data = output.get(0).getCategories().get(0).getLabel().substring(2);
+            detected.setVisibility(TextView.VISIBLE);
+            correct.setVisibility(MaterialButton.VISIBLE);
+            wrong.setVisibility(MaterialButton.VISIBLE);
+            detected.setText(data);
         }
+    }
+
+    public void goToAdd(Food data, String type, String date) {
+        getChildFragmentManager().beginTransaction()
+                .replace(R.id.voiceFrag, new AddFoodFragment(data, type, date))
+                .addToBackStack("voiceF")
+                .commit();
     }
 }
