@@ -324,6 +324,7 @@
             android:backgroundTint="@color/colorPrimaryDark"
             android:text="@string/add_food"
             android:fontFamily="@font/roboto_medium"
+            android:textColor="@color/white"
             android:layout_marginTop="@dimen/default_margin"
             android:padding="10dp"
             app:cornerRadius="16dp"
@@ -331,22 +332,5 @@
             app:layout_constraintStart_toStartOf="@id/guid_add_food_start"
             app:layout_constraintEnd_toStartOf="@id/guid_add_food_end"
             style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
-
-
-    <!--        android:layout_weight="@{viewModel.selectedFood.nutrients.fatPercent}"-->
-    <!--        android:layout_weight="@{viewModel.selectedFood.nutrients.proteinPercent}"-->
-    <!--        android:layout_weight="@{viewModel.selectedFood.nutrients.carbsPercent}"-->
-    <!--            android:weightSum="@{viewModel.selectedFood.nutrients.sumPercent + 2}"-->
-    <!--        android:text="@{viewModel.displayCurrentCarbs}"-->
-    <!--                            android:text="@{viewModel.displayCarbsPercent}"-->
-    <!--        android:text="@{viewModel.displayCurrentProteins}"-->
-    <!--        android:text="@{viewModel.displayProteinsPercent}"-->
-    <!--        android:text="@{viewModel.displayCurrentFats}"-->
-    <!--        android:text="@{viewModel.displayFatsPercent}"-->
-    <!--        android:text="@{viewModel.displayCurrentTotalKcal}"-->
-    <!--        android:onClick="@{() -> viewModel.onAddFoodSave()}"-->
-    <!--        android:text="@={viewModel.currentGramsString}"-->
-    <!--        tools:text="@string/foodname"-->

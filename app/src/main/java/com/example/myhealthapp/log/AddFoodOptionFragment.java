@@ -44,7 +44,7 @@ public class AddFoodOptionFragment extends Fragment {
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity) getActivity()).goToCam();
+                ((MainActivity) getActivity()).goToCam(type, date);
             }
         });
 
@@ -52,7 +52,7 @@ public class AddFoodOptionFragment extends Fragment {
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity) getActivity()).goToVoice();
+                ((MainActivity) getActivity()).goToVoice(type, date);
             }
         });
 

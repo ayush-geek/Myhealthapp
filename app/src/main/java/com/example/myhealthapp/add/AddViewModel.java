@@ -11,6 +11,7 @@ import com.example.myhealthapp.Constants;
 import com.example.myhealthapp.network.FoodDatabaseInterface;
 import com.example.myhealthapp.network.model.Data;
 import com.example.myhealthapp.network.model.Food;
+import com.example.myhealthapp.network.model.Hint;
 //import com.example.myhealthapp.network.model.Hint;
 
 import java.util.ArrayList;
@@ -55,8 +56,18 @@ public class AddViewModel extends ViewModel {
                     Log.d("IMAD", "Response error: " + response.message());
                     foodScanned.setValue(null);
                 } else {
-                    assert response.body().getParsed().size() != 0;
-                    foodScanned.setValue(response.body().getParsed().get(0).getFood());
+                    if (response.body() != null && response.body().getHints().size() != 0) {
+                        for (Hint it: response.body().getHints()) {
+                            if (it.getFood().getLabel().equalsIgnoreCase(what)) {
+                                foodScanned.setValue(it.getFood());
+                                break;
+                            }
+                        }
+                    } else if (response.body() != null && response.body().getParsed().size() != 0) {
+                        foodScanned.setValue(response.body().getParsed().get(0).getFood());
+                    } else {
+                        foodScanned.setValue(null);
+                    }
                 }
             }
 

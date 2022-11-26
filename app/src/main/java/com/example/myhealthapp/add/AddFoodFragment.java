@@ -83,7 +83,7 @@ public class AddFoodFragment extends Fragment {
         carbTv.setText(getResources().getString(R.string.weight, selectedFood.getNutrients().getChocdf().intValue()));
         proteinTv.setText(getResources().getString(R.string.weight, selectedFood.getNutrients().getProcnt().intValue()));
         fatsTv.setText(getResources().getString(R.string.weight, selectedFood.getNutrients().getFat().intValue()));
-        totalTv.setText(getResources().getString(R.string.cals, selectedFood.getNutrients().getFat().intValue()));
+        totalTv.setText(getResources().getString(R.string.cals, selectedFood.getNutrients().getEnercKcal().intValue()));
 
         double totalNutrients = Math.ceil(selectedFood.getNutrients().getChocdf()
                 + selectedFood.getNutrients().getFat()
@@ -123,12 +123,9 @@ public class AddFoodFragment extends Fragment {
         String date = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-
-
         if (user != null) {
             String uid = user.getUid();
             FoodDataBase food = new FoodDataBase(selectedFood.getKnownAs(), (int)(selectedFood.getNutrients().getEnercKcal() * quantity / 100.0), quantity);
-
 
             DocumentReference docRef = db.collection("dailyLimit").document(user.getUid());
             docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -142,7 +139,6 @@ public class AddFoodFragment extends Fragment {
                 }
             });
 
-
             db.collection("users")
                     .document(uid).collection(date).document(String.valueOf(type)).collection(String.valueOf(type))
                     //.set(item, SetOptions.merge())
@@ -152,7 +148,7 @@ public class AddFoodFragment extends Fragment {
                             updateConsumption((int)(selectedFood.getNutrients().getEnercKcal() * quantity / 100.0));
                             Log.d("IMAD", "DocumentSnapshot successfully written!");
                             Toast.makeText(requireContext(), "Food Added successfully", Toast.LENGTH_LONG).show();
-                            getActivity().getSupportFragmentManager().popBackStack("calenderF", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                            requireActivity().getSupportFragmentManager().popBackStack("showLogF", 0);
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {

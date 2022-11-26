@@ -26,6 +26,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.tensorflow.lite.DataType;
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
@@ -47,10 +48,14 @@ public class CameraFragment extends Fragment {
     Context cntxt;
     AddViewModel adm;
     FrameLayout fm;
+    String type;
+    String date;
 
-    public CameraFragment(Context cntxt) {
+    public CameraFragment(Context cntxt, String type, String date) {
         // Required empty public constructor
         this.cntxt = cntxt;
+        this.type = type;
+        this.date = date;
     }
 
     @Override
@@ -125,16 +130,19 @@ public class CameraFragment extends Fragment {
                 }
             }
 
-            String[] classes = {"Chapati", "Kadhai Panner", "Dal Fry", "Fried Rice", "Bhindi fry", "Jeera Aloo", "Steamed Rice"};
-            String[] calories = {"297", "156.15", "129.98", "172.84", "129.53", "101.57", "127.06"};
+            String[] classes = {"Chapati", "Kadhai Paneer", "Dal Fry", "Fried Rice", "Bhindi fry", "Jeera Aloo", "Steamed Rice"};
+            String[] calories = {"297", "87", "129.98", "172.84", "129.53", "101.57", "127.06"};
             result.setText(classes[maxPos]);
             confidence.setText(calories[maxPos]);
 
-            // Releases model resources if no longer used.
             model.close();
 
             adm.getSearched(classes[maxPos]).observe(getViewLifecycleOwner(), data -> {
-                goToAdd(data, "breakfast", "12-11-2022");
+                if (data == null) {
+                    Toast.makeText(requireContext(), "Cannot find the food item in our Database", Toast.LENGTH_LONG).show();
+                } else {
+                    goToAdd(data, type, date);
+                }
             });
         } catch (IOException e) {
             // TODO Handle the exception
@@ -145,7 +153,7 @@ public class CameraFragment extends Fragment {
     public void goToAdd(Food data, String type, String date) {
         getChildFragmentManager().beginTransaction()
                 .replace(R.id.takePic, new AddFoodFragment(data, type, date))
-                .addToBackStack("rexuyvttyuy")
+                .addToBackStack("cameraF")
                 .commit();
     }
 
@@ -153,13 +161,17 @@ public class CameraFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == 1 && resultCode == RESULT_OK) {
             Bitmap image = (Bitmap) data.getExtras().get("data");
-//                Bitmap image = MediaStore.Images.Media.getBitmap(cntxt.getContentResolver(), data.getData());
-            Log.d("IMAD", String.valueOf(image));
-            int dimension = Math.min(image.getWidth(), image.getHeight());
-            image = ThumbnailUtils.extractThumbnail(image, dimension, dimension);
-            imageView.setImageBitmap(image);
-            image = Bitmap.createScaledBitmap(image, imageSize, imageSize, false);
-            classifyImage(image);
+//            Bitmap image = null;
+            try {
+//                image = MediaStore.Images.Media.getBitmap(cntxt.getContentResolver(), data.getData());
+                int dimension = Math.min(image.getWidth(), image.getHeight());
+                image = ThumbnailUtils.extractThumbnail(image, dimension, dimension);
+                imageView.setImageBitmap(image);
+                image = Bitmap.createScaledBitmap(image, imageSize, imageSize, false);
+                classifyImage(image);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         super.onActivityResult(requestCode, resultCode, data);

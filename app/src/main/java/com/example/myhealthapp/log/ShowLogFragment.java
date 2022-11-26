@@ -1,5 +1,6 @@
 package com.example.myhealthapp.log;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,6 +25,11 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +51,7 @@ public class ShowLogFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -66,22 +74,25 @@ public class ShowLogFragment extends Fragment {
             default:
                 tv.setText(getResources().getString(R.string.logTitle));
         }
-
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         Button addFood = thisView.findViewById(R.id.addFood);
+        if (!date.equals(LocalDate.now().format(df))) {
+            addFood.setEnabled(false);
+        }
+
         addFood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity) getActivity()).addOptions(type, date);
+                ((MainActivity) requireActivity()).addOptions(type, date);
             }
         });
 
         RecyclerView rcv = thisView.findViewById(R.id.rcv);
-        data=new ArrayList<>();
+        data = new ArrayList<>();
         fla = new FoodLogAdapter(requireContext(), data);
         fla.setFood(data);
         rcv.setAdapter(fla);
         getMyData();
-
         return thisView;
     }
 
@@ -99,8 +110,7 @@ public class ShowLogFragment extends Fragment {
                     List<FoodDataBase> downloadInfoList = task.getResult().toObjects(FoodDataBase.class);
                     data.addAll(downloadInfoList);
                     fla.notifyDataSetChanged();
-                }
-                else {
+                } else {
                     Log.d("TAG", "Error getting documents: ", task.getException());
                 }
             }
