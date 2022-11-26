@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -22,6 +23,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class TargetFragment extends Fragment {
 
@@ -43,7 +48,8 @@ public class TargetFragment extends Fragment {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        DocumentReference docRef = db.collection("dailyLimit").document(user.getUid());
+        String date = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+        DocumentReference docRef = db.collection("foodLimit").document(user.getUid()).collection(date).document("daily");
 
         docRef.get().addOnCompleteListener((new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -89,6 +95,7 @@ public class TargetFragment extends Fragment {
                 int val=Integer.parseInt(ed1.getText().toString());
                 updateTarget(val);
                 ed1.setText(String.valueOf(val));
+                Toast.makeText(getContext(), "Target Updated to "+ String.valueOf(val), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -104,8 +111,10 @@ public class TargetFragment extends Fragment {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String date = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
 
-        db.collection("dailyLimit").document(user.getUid())
+
+        db.collection("foodLimit").document(user.getUid()).collection(date).document("daily")
                 .update("daily_limit", val)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
