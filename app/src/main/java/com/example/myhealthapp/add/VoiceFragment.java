@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -70,20 +71,36 @@ public class VoiceFragment extends Fragment {
             tensor = ac.createInputTensorAudio();
 
             MaterialButton b = myView.findViewById(R.id.record_voice);
-            b.setOnClickListener(new View.OnClickListener() {
+            b.setOnTouchListener(new View.OnTouchListener() {
                 @Override
-                public void onClick(View view) {
-                    if (k) {
-                        stopRecording();
-                        k = false;
-                        b.setIcon(getResources().getDrawable(R.drawable.mic));
-                    } else {
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
                         startRecording();
                         k = true;
                         b.setIcon(getResources().getDrawable(R.drawable.stop));
+                    } else {
+                        stopRecording();
+                        k = false;
+                        b.setIcon(getResources().getDrawable(R.drawable.mic));
                     }
+                    return false;
                 }
             });
+
+//            b.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    if (k) {
+//                        stopRecording();
+//                        k = false;
+//                        b.setIcon(getResources().getDrawable(R.drawable.mic));
+//                    } else {
+//                        startRecording();
+//                        k = true;
+//                        b.setIcon(getResources().getDrawable(R.drawable.stop));
+//                    }
+//                }
+//            });
 
             wrong.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -123,9 +140,9 @@ public class VoiceFragment extends Fragment {
         ar.stop();
         tensor.load(ar);
         List<Classifications> output = ac.classify(tensor);
-
+        Log.d("IMAD", String.valueOf(output.get(0).getCategories().get(0).getIndex()));
         if (output.get(0).getCategories().get(0).getIndex() == 1) {
-            Toast.makeText(requireContext(), "Sorry, unable to recognize what you're saying please speak loudly.", Toast.LENGTH_LONG).show();
+            Toast.makeText(requireContext(), "Sorry, unable to recognize what you're saying please speak loudly.", Toast.LENGTH_SHORT).show();
         } else {
             data = output.get(0).getCategories().get(0).getLabel().substring(2);
             detected.setVisibility(TextView.VISIBLE);
