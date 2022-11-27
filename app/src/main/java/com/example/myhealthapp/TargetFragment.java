@@ -23,13 +23,17 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
+
 
 public class TargetFragment extends Fragment {
-
+int target;
     public TargetFragment() {
 
 
@@ -50,31 +54,47 @@ public class TargetFragment extends Fragment {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String date = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
         DocumentReference docRef = db.collection("foodLimit").document(user.getUid()).collection(date).document("daily");
+        DocumentReference docRef2=db.collection("user-info").document(user.getUid());
+//        docRef.get().addOnCompleteListener((new OnCompleteListener<DocumentSnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                        if (task.isSuccessful()) {
+//
+//                            DocumentSnapshot document = task.getResult();
+//                            if (document.exists()) {
+//                                Log.d("IMAD", "DocumentSnapshot data: " + document.getData());
+//
+//                                DailyLimit dl = document.toObject(DailyLimit.class);
+//                                ed1.setText(String.valueOf(dl.getDaily_limit()));
+//                            }
+//                        } else {
+//                            Log.d("IMAD", "No such document");
+//                        }
+//
+//                    }
+//                }));
 
-        docRef.get().addOnCompleteListener((new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
 
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
-                                Log.d("IMAD", "DocumentSnapshot data: " + document.getData());
+        docRef2.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d("userInfo", "DocumentSnapshot data: " + document.getData());
+                        int tgt = Integer.parseInt(document.get("daily-Limit").toString());
 
-                                DailyLimit dl = document.toObject(DailyLimit.class);
-                                ed1.setText(String.valueOf(dl.getDaily_limit()));
-                            }
-                        } else {
-                            Log.d("IMAD", "No such document");
-                        }
+                        if(tgt>=0)
+                            ed1.setText(String.valueOf(tgt));
+                        Log.d("ayus", String.valueOf(tgt));
+                        target=tgt;
 
+                    } else {
+                        Log.d("userInfo", "get failed with ", task.getException());
                     }
-                }));
-
-
-
-
-
-
+                }
+            }
+        });
 
 
 
@@ -93,9 +113,17 @@ public class TargetFragment extends Fragment {
 
               //  ed1.setText(ed1.getText());
                 int val=Integer.parseInt(ed1.getText().toString());
-                updateTarget(val);
-                ed1.setText(String.valueOf(val));
-                Toast.makeText(getContext(), "Target Updated to "+ String.valueOf(val), Toast.LENGTH_SHORT).show();
+                if(val<0)
+                {
+                    Toast.makeText(getContext(),"Please Enter Positive Number", Toast.LENGTH_SHORT).show();
+                    ed1.setText(String.valueOf(target));
+                }
+
+                else {
+                    updateTarget(val);
+                    ed1.setText(String.valueOf(val));
+                    Toast.makeText(getContext(), "Target Updated to " + String.valueOf(val), Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -111,7 +139,10 @@ public class TargetFragment extends Fragment {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        DocumentReference docRef2=db.collection("user-info").document(user.getUid());
         String date = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+
+        docRef2.update("daily-Limit",val);
 
 
         db.collection("foodLimit").document(user.getUid()).collection(date).document("daily")
@@ -119,6 +150,7 @@ public class TargetFragment extends Fragment {
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
+
                         Log.d("IMAD","Firebase Updated");
                     }
                 })
