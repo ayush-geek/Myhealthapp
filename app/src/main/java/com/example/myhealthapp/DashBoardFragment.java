@@ -32,12 +32,15 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Map;
 
 public class DashBoardFragment extends Fragment {
     private PieChart pieChart;
-    TextView tv_food, tv_goal, tv_remaining;
+    TextView tv_food, tv_goal;
+    int tgt;
     int tgt;
 
     public DashBoardFragment() {
@@ -48,6 +51,8 @@ public class DashBoardFragment extends Fragment {
                              Bundle savedInstanceState) {
         View myV = inflater.inflate(R.layout.fragment_dash_board, container, false);
 
+        tv_goal = (TextView) myV.findViewById(R.id.goal);
+        tv_food = (TextView) myV.findViewById(R.id.food);
         pieChart = myV.findViewById(R.id.pie_chart);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -55,10 +60,8 @@ public class DashBoardFragment extends Fragment {
         String date = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
         DocumentReference docRef = db.collection("foodLimit").document(user.getUid()).collection(date).document("daily");
 
-
-
-        tgt=2300;
-        DocumentReference docRef2=db.collection("user-info").document(user.getUid());
+        tgt = 2300;
+        DocumentReference docRef2 = db.collection("user-info").document(user.getUid());
 
         docRef2.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -67,19 +70,16 @@ public class DashBoardFragment extends Fragment {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         Log.d("userInfo", "DocumentSnapshot data: " + document.getData());
-                        tgt=Integer.parseInt(document.get("daily-Limit").toString());
-                        Log.d("ayus",String.valueOf(tgt));
+                        tgt = Integer.parseInt(document.get("daily-Limit").toString());
+                        Log.d("ayus", String.valueOf(tgt));
                     } else {
-
-                        tgt=2300;
+                        tgt = 2300;
                         Map<String, Integer> info = new HashMap<>();
-                        info.put("daily-Limit",2300);
+                        info.put("daily-Limit", 2300);
 
                         docRef2.set(info);
 
-
                         Log.d("userInfo", "No such document");
-
                     }
 
                     docRef.get().addOnCompleteListener((new OnCompleteListener<DocumentSnapshot>() {
@@ -90,27 +90,15 @@ public class DashBoardFragment extends Fragment {
                                 DocumentSnapshot document = task.getResult();
                                 if (document.exists()) {
                                     Log.d("IMAD", "DocumentSnapshot data: " + document.getData());
-//                            City city = documentSnapshot.toObject(City.class);
                                     DailyLimit dl = document.toObject(DailyLimit.class);
-                                    tv_goal = (TextView) myV.findViewById(R.id.goal);
                                     tv_goal.setText(String.valueOf(tgt));
 
-                                    tv_food = (TextView) myV.findViewById(R.id.food);
-                                    tv_food.setText(String.valueOf(dl.getConsumption()));
+                                                            tv_food.setText(String.valueOf(dl.getConsumption()));
 
-                        // tv_remaining=(TextView) findViewById(R.id.remaining);
-                        // tv_remaining.setText(String.valueOf(dl.getDaily_limit()-dl.getConsumption()));
-
-                        drawPC();
-                    } else {
-                        Log.d("IMAD", "No such document");
-                                    // tv_remaining=(TextView) findViewById(R.id.remaining);
-                                    // tv_remaining.setText(String.valueOf(dl.getDaily_limit()-dl.getConsumption()));
-
+                                    drawPC();
                                 } else {
                                     Log.d("IMAD", "No such document");
-
-                                    //  Map<String, Object> city = new HashMap<>();
+                                    Log.d("IMAD", "No such document");
 
                                     DailyLimit dlimit = new DailyLimit(tgt, 0);
 
@@ -118,14 +106,9 @@ public class DashBoardFragment extends Fragment {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             Log.d("IMAD", "DocumentSnapshot written with ID: " + docRef.getId());
-
-                                            tv_goal = (TextView) myV.findViewById(R.id.goal);
                                             tv_goal.setText(String.valueOf(tgt));
 
-                                            tv_food = (TextView) myV.findViewById(R.id.food);
                                             tv_food.setText(String.valueOf(0));
-
-
                                         }
                                     }).addOnFailureListener(new OnFailureListener() {
                                         @Override
@@ -134,24 +117,17 @@ public class DashBoardFragment extends Fragment {
                                         }
                                     });
                                 }
-
                                 drawPC();
                             } else {
                                 Log.d("IMAD", "get failed with ", task.getException());
                             }
                         }
-
                     }));
                 } else {
-
                     Log.d("userInfo", "get failed with ", task.getException());
                 }
             }
         });
-
-
-
-
 
 
         return myV;
@@ -168,7 +144,7 @@ public class DashBoardFragment extends Fragment {
         if (rem < 0) {
             rem = 0;
         }
-        
+
         pieEntries.add(new PieEntry(rem, ""));
         pieEntries.add(new PieEntry(food_cons, ""));
 
