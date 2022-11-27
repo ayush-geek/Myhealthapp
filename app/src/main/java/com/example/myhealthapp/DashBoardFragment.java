@@ -26,15 +26,19 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class DashBoardFragment extends Fragment {
     private PieChart pieChart;
     TextView tv_food, tv_goal, tv_remaining;
+    int tgt;
 
     public DashBoardFragment() {
     }
@@ -50,60 +54,114 @@ public class DashBoardFragment extends Fragment {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String date = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
         DocumentReference docRef = db.collection("foodLimit").document(user.getUid()).collection(date).document("daily");
-        docRef.get().addOnCompleteListener((new OnCompleteListener<DocumentSnapshot>() {
+
+
+
+        tgt=2300;
+        DocumentReference docRef2=db.collection("user-info").document(user.getUid());
+
+        docRef2.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
-
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        Log.d("IMAD", "DocumentSnapshot data: " + document.getData());
-//                            City city = documentSnapshot.toObject(City.class);
-                        DailyLimit dl = document.toObject(DailyLimit.class);
-                        tv_goal = (TextView) myV.findViewById(R.id.goal);
-                        tv_goal.setText(String.valueOf(dl.getDaily_limit()));
-
-                        tv_food = (TextView) myV.findViewById(R.id.food);
-                        tv_food.setText(String.valueOf(dl.getConsumption()));
-
-                        // tv_remaining=(TextView) findViewById(R.id.remaining);
-                        // tv_remaining.setText(String.valueOf(dl.getDaily_limit()-dl.getConsumption()));
+                        Log.d("userInfo", "DocumentSnapshot data: " + document.getData());
+                        tgt=Integer.parseInt(document.get("daily-Limit").toString());
+                        Log.d("ayus",String.valueOf(tgt));
                     } else {
-                        Log.d("IMAD", "No such document");
 
-                        //  Map<String, Object> city = new HashMap<>();
-                        DailyLimit dlimit = new DailyLimit(2300, 0);
+                        tgt=2300;
+                        Map<String, Integer> info = new HashMap<>();
+                        info.put("daily-Limit",2300);
 
-                        docRef.set(dlimit).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                Log.d("IMAD", "DocumentSnapshot written with ID: " + docRef.getId());
+                        docRef2.set(info);
 
-                                tv_goal = (TextView) myV.findViewById(R.id.goal);
-                                tv_goal.setText(String.valueOf(2300));
 
-                                tv_food = (TextView) myV.findViewById(R.id.food);
-                                tv_food.setText(String.valueOf(0));
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.e("IMAD", "Error adding document", e);
-                            }
-                        });
+                        Log.d("userInfo", "No such document");
+
                     }
+
+
+
+                    docRef.get().addOnCompleteListener((new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
+                                    Log.d("IMAD", "DocumentSnapshot data: " + document.getData());
+//                            City city = documentSnapshot.toObject(City.class);
+                                    DailyLimit dl = document.toObject(DailyLimit.class);
+                                    tv_goal = (TextView) myV.findViewById(R.id.goal);
+                                    tv_goal.setText(String.valueOf(tgt));
+
+                                    tv_food = (TextView) myV.findViewById(R.id.food);
+                                    tv_food.setText(String.valueOf(dl.getConsumption()));
+
+                                    // tv_remaining=(TextView) findViewById(R.id.remaining);
+                                    // tv_remaining.setText(String.valueOf(dl.getDaily_limit()-dl.getConsumption()));
+
+                                } else {
+                                    Log.d("IMAD", "No such document");
+
+                                    //  Map<String, Object> city = new HashMap<>();
+
+
+
+
+                                    DailyLimit dlimit = new DailyLimit(tgt, 0);
+
+                                    docRef.set(dlimit).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            Log.d("IMAD", "DocumentSnapshot written with ID: " + docRef.getId());
+
+                                            tv_goal = (TextView) myV.findViewById(R.id.goal);
+                                            tv_goal.setText(String.valueOf(tgt));
+
+                                            tv_food = (TextView) myV.findViewById(R.id.food);
+                                            tv_food.setText(String.valueOf(0));
+
+
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.e("IMAD", "Error adding document", e);
+                                        }
+                                    });
+                                }
+
+                                drawPC();
+                            } else {
+                                Log.d("IMAD", "get failed with ", task.getException());
+                            }
+                        }
+
+                    }));
+
+
                 } else {
-                    Log.d("IMAD", "get failed with ", task.getException());
+
+                    Log.d("userInfo", "get failed with ", task.getException());
                 }
-                drawPC();
+
             }
-        }));
+        });
+
+
+
+
+
 
         return myV;
     }
 
     private void drawPC() {
         ArrayList<PieEntry> pieEntries = new ArrayList<>();
+
 
         int food_cons = Integer.parseInt(tv_food.getText().toString());
         int dlimit = Integer.parseInt(tv_goal.getText().toString());
