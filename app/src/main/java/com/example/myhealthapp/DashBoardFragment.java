@@ -82,8 +82,6 @@ public class DashBoardFragment extends Fragment {
 
                     }
 
-
-
                     docRef.get().addOnCompleteListener((new OnCompleteListener<DocumentSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -100,6 +98,12 @@ public class DashBoardFragment extends Fragment {
                                     tv_food = (TextView) myV.findViewById(R.id.food);
                                     tv_food.setText(String.valueOf(dl.getConsumption()));
 
+                        // tv_remaining=(TextView) findViewById(R.id.remaining);
+                        // tv_remaining.setText(String.valueOf(dl.getDaily_limit()-dl.getConsumption()));
+
+                        drawPC();
+                    } else {
+                        Log.d("IMAD", "No such document");
                                     // tv_remaining=(TextView) findViewById(R.id.remaining);
                                     // tv_remaining.setText(String.valueOf(dl.getDaily_limit()-dl.getConsumption()));
 
@@ -107,9 +111,6 @@ public class DashBoardFragment extends Fragment {
                                     Log.d("IMAD", "No such document");
 
                                     //  Map<String, Object> city = new HashMap<>();
-
-
-
 
                                     DailyLimit dlimit = new DailyLimit(tgt, 0);
 
@@ -141,13 +142,10 @@ public class DashBoardFragment extends Fragment {
                         }
 
                     }));
-
-
                 } else {
 
                     Log.d("userInfo", "get failed with ", task.getException());
                 }
-
             }
         });
 
@@ -167,9 +165,10 @@ public class DashBoardFragment extends Fragment {
         int dlimit = Integer.parseInt(tv_goal.getText().toString());
         int rem = dlimit - food_cons;
 
-        if (rem < 0)
+        if (rem < 0) {
             rem = 0;
-
+        }
+        
         pieEntries.add(new PieEntry(rem, ""));
         pieEntries.add(new PieEntry(food_cons, ""));
 
