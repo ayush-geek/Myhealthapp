@@ -74,6 +74,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10sp"
+                android:inputType="phone"
                 android:text="1500"
                 android:textAlignment="center"
                 android:textColor="@color/white"
