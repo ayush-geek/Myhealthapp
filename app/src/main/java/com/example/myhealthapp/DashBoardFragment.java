@@ -112,7 +112,7 @@ public class DashBoardFragment extends Fragment {
         if (rem < 0) {
             rem = 0;
         }
-        
+
         pieEntries.add(new PieEntry(rem, ""));
         pieEntries.add(new PieEntry(food_cons, ""));
 
