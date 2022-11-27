@@ -26,17 +26,21 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Map;
 
 public class DashBoardFragment extends Fragment {
     private PieChart pieChart;
     TextView tv_food, tv_goal;
+    int tgt;
     int tgt;
 
     public DashBoardFragment() {
@@ -89,7 +93,7 @@ public class DashBoardFragment extends Fragment {
                                     DailyLimit dl = document.toObject(DailyLimit.class);
                                     tv_goal.setText(String.valueOf(tgt));
 
-                                    tv_food.setText(String.valueOf(dl.getConsumption()));
+                                                            tv_food.setText(String.valueOf(dl.getConsumption()));
 
                                     drawPC();
                                 } else {
@@ -131,6 +135,7 @@ public class DashBoardFragment extends Fragment {
 
     private void drawPC() {
         ArrayList<PieEntry> pieEntries = new ArrayList<>();
+
 
         int food_cons = Integer.parseInt(tv_food.getText().toString());
         int dlimit = Integer.parseInt(tv_goal.getText().toString());
