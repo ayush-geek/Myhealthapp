@@ -54,7 +54,6 @@ public class DashBoardFragment extends Fragment {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
-
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         Log.d("IMAD", "DocumentSnapshot data: " + document.getData());
@@ -68,6 +67,8 @@ public class DashBoardFragment extends Fragment {
 
                         // tv_remaining=(TextView) findViewById(R.id.remaining);
                         // tv_remaining.setText(String.valueOf(dl.getDaily_limit()-dl.getConsumption()));
+
+                        drawPC();
                     } else {
                         Log.d("IMAD", "No such document");
 
@@ -95,7 +96,6 @@ public class DashBoardFragment extends Fragment {
                 } else {
                     Log.d("IMAD", "get failed with ", task.getException());
                 }
-                drawPC();
             }
         }));
 
@@ -109,9 +109,10 @@ public class DashBoardFragment extends Fragment {
         int dlimit = Integer.parseInt(tv_goal.getText().toString());
         int rem = dlimit - food_cons;
 
-        if (rem < 0)
+        if (rem < 0) {
             rem = 0;
-
+        }
+        
         pieEntries.add(new PieEntry(rem, ""));
         pieEntries.add(new PieEntry(food_cons, ""));
 
