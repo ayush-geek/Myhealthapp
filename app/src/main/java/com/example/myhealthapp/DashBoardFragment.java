@@ -41,7 +41,6 @@ public class DashBoardFragment extends Fragment {
     private PieChart pieChart;
     TextView tv_food, tv_goal;
     int tgt;
-    int tgt;
 
     public DashBoardFragment() {
     }
@@ -86,18 +85,13 @@ public class DashBoardFragment extends Fragment {
                         @Override
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                             if (task.isSuccessful()) {
-
                                 DocumentSnapshot document = task.getResult();
                                 if (document.exists()) {
                                     Log.d("IMAD", "DocumentSnapshot data: " + document.getData());
                                     DailyLimit dl = document.toObject(DailyLimit.class);
-                                    tv_goal.setText(String.valueOf(tgt));
-
-                                                            tv_food.setText(String.valueOf(dl.getConsumption()));
-
+                                    tv_food.setText(String.valueOf(dl.getConsumption()));
                                     drawPC();
                                 } else {
-                                    Log.d("IMAD", "No such document");
                                     Log.d("IMAD", "No such document");
 
                                     DailyLimit dlimit = new DailyLimit(tgt, 0);
@@ -116,8 +110,8 @@ public class DashBoardFragment extends Fragment {
                                             Log.e("IMAD", "Error adding document", e);
                                         }
                                     });
+                                    drawPC();
                                 }
-                                drawPC();
                             } else {
                                 Log.d("IMAD", "get failed with ", task.getException());
                             }
@@ -129,13 +123,11 @@ public class DashBoardFragment extends Fragment {
             }
         });
 
-
         return myV;
     }
 
     private void drawPC() {
         ArrayList<PieEntry> pieEntries = new ArrayList<>();
-
 
         int food_cons = Integer.parseInt(tv_food.getText().toString());
         int dlimit = Integer.parseInt(tv_goal.getText().toString());
