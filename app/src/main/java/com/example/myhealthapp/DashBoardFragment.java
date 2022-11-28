@@ -70,14 +70,16 @@ public class DashBoardFragment extends Fragment {
                     if (document.exists()) {
                         Log.d("userInfo", "DocumentSnapshot data: " + document.getData());
                         tgt = Integer.parseInt(document.get("daily-Limit").toString());
-                        Log.d("ayus", String.valueOf(tgt));
+                        Log.d("limit", String.valueOf(tgt));
+                        tv_goal.setText(String.valueOf(tgt));
+
                     } else {
                         tgt = 2300;
                         Map<String, Integer> info = new HashMap<>();
                         info.put("daily-Limit", 2300);
 
                         docRef2.set(info);
-
+                        tv_goal.setText(String.valueOf(tgt));
                         Log.d("userInfo", "No such document");
                     }
 
@@ -122,7 +124,6 @@ public class DashBoardFragment extends Fragment {
                 }
             }
         });
-
         return myV;
     }
 
@@ -132,7 +133,6 @@ public class DashBoardFragment extends Fragment {
         int food_cons = Integer.parseInt(tv_food.getText().toString());
         int dlimit = Integer.parseInt(tv_goal.getText().toString());
         int rem = dlimit - food_cons;
-
         if (rem < 0) {
             rem = 0;
         }
