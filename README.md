@@ -2,47 +2,63 @@
 
 Welcome to the MyHealthApp repository! This Android application is your personal tool for managing your daily calorie intake and tracking nutrition. Whether you're on a fitness journey or maintaining a balanced diet, myHealthApp is here to support your health goals.
 
-<div align="center">
-  <p><strong>App Dashboard</strong></p>
-  <img src="dashboard.png" alt="App Dashboard" width="200" height="355">
-</div>
-<div align="center">
-  <p><strong>Log</strong></p>
-  <img src="Log.jpg" alt="Log" width="200" height="355">
-</div>
+<table>
+  <tr>
+    <td align="center">
+      <p><strong>App Dashboard</strong></p>
+      <img src="dashboard.png" alt="App Dashboard" width="200" height="355">
+    </td>
+    <td align="center">
+      <p><strong>Log</strong></p>
+      <img src="Log.jpg" alt="Log" width="200" height="355">
+    </td>
+  </tr>
+</table>
 
----
+<br>
 
-<div align="center">
-  <p><strong>Target Screen</strong></p>
-  <img src="target.jpg" alt="Target Screen" width="200" height="355">
-</div>
-<div align="center">
-  <p><strong>Add Food</strong></p>
-  <img src="add1.jpg" alt="Add Food" width="200" height="355">
-</div>
+<table>
+  <tr>
+    <td align="center">
+      <p><strong>Target Screen</strong></p>
+      <img src="target.jpg" alt="Target Screen" width="200" height="355">
+    </td>
+    <td align="center">
+      <p><strong>Add Food</strong></p>
+      <img src="add1.jpg" alt="Add Food" width="200" height="355">
+    </td>
+  </tr>
+</table>
 
----
+<br>
 
-<div align="center">
-  <p><strong>Calendar</strong></p>
-  <img src="Calendar.jpg" alt="Calendar" width="200" height="355">
-</div>
-<div align="center">
-  <p><strong>Search Food Item</strong></p>
-  <img src="add2.jpg" alt="Search Food Item" width="200" height="355">
-</div>
+<table>
+  <tr>
+    <td align="center">
+      <p><strong>Calendar</strong></p>
+      <img src="Calendar.jpg" alt="Calendar" width="200" height="355">
+    </td>
+    <td align="center">
+      <p><strong>Search Food Item</strong></p>
+      <img src="add2.jpg" alt="Search Food Item" width="200" height="355">
+    </td>
+  </tr>
+</table>
 
----
+<br>
 
-<div align="center">
-  <p><strong>Add Item</strong></p>
-  <img src="add3.jpg" alt="Add Item" width="200" height="355">
-</div>
-<div align="center">
-  <p><strong>History</strong></p>
-  <img src="history.jpg" alt="History" width="200" height="355">
-</div>
+<table>
+  <tr>
+    <td align="center">
+      <p><strong>Add Item</strong></p>
+      <img src="add3.jpg" alt="Add Item" width="200" height="355">
+    </td>
+    <td align="center">
+      <p><strong>History</strong></p>
+      <img src="history.jpg" alt="History" width="200" height="355">
+    </td>
+  </tr>
+</table>
 
 
 
