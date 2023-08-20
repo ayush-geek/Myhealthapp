@@ -2,53 +2,65 @@
 
 Welcome to the MyHealthApp repository! This Android application is your personal tool for managing your daily calorie intake and tracking nutrition. Whether you're on a fitness journey or maintaining a balanced diet, myHealthApp is here to support your health goals.
 
+<style>
+  .image-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .image-wrapper {
+    margin-right: 20px;
+  }
+
+  .image-label {
+    text-align: center;
+    margin-top: 5px;
+  }
+</style>
+
 <div align="center">
-  <div style="display: inline-block; margin-right: 20px;">
-    <h3>App Dashboard</h3>
-    <img src="dashboard.png" alt="App Dashboard" width="200" height="355">
+  <div class="image-container">
+    <div class="image-wrapper">
+      <img src="dashboard.png" alt="App Dashboard" width="200" height="355">
+      <div class="image-label">App Dashboard</div>
+    </div>
+    
+    <div class="image-wrapper">
+      <img src="Log.jpg" alt="Log" width="200" height="355">
+      <div class="image-label">Log</div>
+    </div>
   </div>
   
-  <div style="display: inline-block;">
-    <h3>Log</h3>
-    <img src="Log.jpg" alt="Log" width="200" height="355">
+  <div class="image-container">
+    <div class="image-wrapper">
+      <img src="target.jpg" alt="Target Screen" width="200" height="355">
+      <div class="image-label">Target Screen</div>
+    </div>
+    
+    <div class="image-wrapper">
+      <img src="add1.jpg" alt="Add Food" width="200" height="355">
+      <div class="image-label">Add Food</div>
+    </div>
   </div>
-</div>
+  
+  <div class="image-container">
+    <div class="image-wrapper">
+      <img src="Calendar.jpg" alt="Calendar" width="200" height="355">
+      <div class="image-label">Calendar</div>
+    </div>
+    
+    <div class="image-wrapper">
+      <img src="add2.jpg" alt="Search Food Item" width="200" height="355">
+      <div class="image-label">Search Food Item</div>
+    </div>
+  </div>
+  
+  <div class="image-container">
+    <div class="image-wrapper">
+      <img src="add3.jpg" alt="Add Item" width="200" height="355">
+     
 
-<div align="center" style="margin-top: 30px;">
-  <div style="display: inline-block; margin-right: 20px;">
-    <h3>Target Screen</h3>
-    <img src="target.jpg" alt="Target Screen" width="200" height="355">
-  </div>
-  
-  <div style="display: inline-block;">
-    <h3>Add Food</h3>
-    <img src="add1.jpg" alt="Add Food" width="200" height="355">
-  </div>
-</div>
-
-<div align="center" style="margin-top: 30px;">
-  <div style="display: inline-block; margin-right: 20px;">
-    <h3>Calendar</h3>
-    <img src="Calendar.jpg" alt="Calendar" width="200" height="355">
-  </div>
-  
-  <div style="display: inline-block;">
-    <h3>Search Food Item</h3>
-    <img src="add2.jpg" alt="Search Food Item" width="200" height="355">
-  </div>
-</div>
-
-<div align="center" style="margin-top: 30px;">
-  <div style="display: inline-block; margin-right: 20px;">
-    <h3>Add Item</h3>
-    <img src="add3.jpg" alt="Add Item" width="200" height="355">
-  </div>
-  
-  <div style="display: inline-block;">
-    <h3>History</h3>
-    <img src="history.jpg" alt="History" width="200" height="355">
-  </div>
-</div>
 
 
 
