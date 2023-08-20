@@ -2,7 +2,7 @@
 
 Welcome to the myHealthApp repository! This Android application is your personal tool for managing your daily calorie intake and tracking nutrition. Whether you're on a fitness journey or maintaining a balanced diet, myHealthApp is here to support your health goals.
 
-![App Screenshots](screenshots.png)
+![App DashBoard](dashboards.png)
 
 ## Features
 
