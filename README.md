@@ -6,8 +6,10 @@ Welcome to the MyHealthApp repository! This Android application is your personal
 ![Log ](Log.jpg)
 ![Target Screen](target.jpg)
 ![Add Food](add1.jpg)
-![App DashBoard](dashboard.png)
-![App DashBoard](dashboard.png)
+![Calendar](Calendar.jpg)
+![Search Food Item](add2.jpg)
+![Add Item](add3.jpg)
+![History](History.jpg)
 
 ## Features
 
