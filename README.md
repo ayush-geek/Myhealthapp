@@ -9,7 +9,7 @@ Welcome to the MyHealthApp repository! This Android application is your personal
 ![Calendar](Calendar.jpg)
 ![Search Food Item](add2.jpg)
 ![Add Item](add3.jpg)
-![History](history.jpg)
+![History](add3.jpg)
 
 ## Features
 
